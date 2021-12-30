@@ -1,29 +1,11 @@
 # %%
 import cv2
-from face_recognition.api import face_encodings 
-import numpy as np
-import face_recognition as fr
-import os
 from datetime import datetime
+import face_recognition as fr
+import numpy as np
+import os
 import pandas as pd
 
-
-# %% Test
-# testImg = cv2.imread('./FaceDB/George Morales Jr.jpg', 1)
-# testImg = cv2.cvtColor(testImg, cv2.COLOR_BGR2RGB)
-# encoding = fr.face_encodings(testImg)
-# print(encoding[0])
-
-# for dirpath, dirnames, fnames in os.walk('./FaceDB'):
-#     print(dirpath)
-#     print(dirnames)
-#     print(fnames)
-# print(os.listdir('./FaceDB'))
-# find_images('./FaceDB')
-# %% facial recognition package
-# For now only loads jpg and png files 
-
-    
 
 # %% define functions 
 def get_db_faces(db_path):
@@ -69,7 +51,7 @@ def encodeFace(img):
     imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
     encoding = fr.face_encodings(imgS)[0]
     return encoding
-
+# blabla
 def markAttendance(name):
     with open('attendance.csv', 'r+') as f:
         myDataList = f.readlines()
@@ -80,23 +62,25 @@ def markAttendance(name):
         if name not in nameList:
             now = datetime.now()
             dtString = now.strftime('%H:%M:%S %d-%m-%Y')
-            f.writelines(f'{name},{dtString}\n')
+            f.writelines(f'\n{name},{dtString}')
             print("Attendance recorded.")
 # %% locate and encode
 known_faces = get_db_faces('./FaceDB')
 known_names = list(known_faces.keys())
 known_encodings = list(known_faces.values())
 print(known_names)
-# %%  capture test image through webcam
 
+
+
+
+# %%  capture test image through webcam
+    #change to VideoCapture(1) for desktops or laptops that uses external webcams
 cap = cv2.VideoCapture(0)
 
-# a video is essentially an image in a slideshow 
-# so we call the variables currFrame
 while True:
     success, img = cap.read()
     imgS = cv2.resize(img, (0,0), None, 0.25, 0.25) # resize the image to 1/4 
-    imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
+    # imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
 
     curFrameLoc = fr.face_locations(imgS)
     curFrameEnc = fr.face_encodings(imgS, curFrameLoc)
@@ -122,6 +106,7 @@ while True:
             #     now = datetime.now()
             #     uk_fname = now.strftime('%H:%M:%S %d-%m-%Y')
             #     cv2.imwrite(f'Unknowns/{uk_fname}.jpg', img)
+
             y1,x2,y2,x1 = location
             y1,x2,y2,x1 = y1*4,x2*4,y2*4,x1*4
             
@@ -135,7 +120,6 @@ while True:
 
 
         
-
     cv2.imshow('Webcam', img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
@@ -145,6 +129,5 @@ cv2.destroyAllWindows()
 
 # %% Notes 
 # Name unknown images with datetime
-cap.release()
-cv2.destroyAllWindows()
-# %%
+# cap.release()
+# cv2.destroyAllWindows()
