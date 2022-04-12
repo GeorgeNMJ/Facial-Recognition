@@ -1,13 +1,13 @@
 
 Dependencies:
-- pip: cmake 
-- conda-forge: dlib
-- pip: face-recognition
-- conda: numpy
-- conda: pandas
-- conda: matplotlib
-- pip: opencv-python
-- pip: streamlit
+- cmake 
+- dlib
+- face-recognition
+- numpy
+- pandas
+- matplotlib
+- opencv-python
+- streamlit
 
 To run source code:
 1. activate conda environment with the dependencies
